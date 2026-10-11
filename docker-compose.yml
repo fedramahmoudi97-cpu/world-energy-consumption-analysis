@@ -1,0 +1,22 @@
+name: ds8003-energy
+
+services:
+  spark:
+    image: apache/spark:3.5.9-scala2.12-java17-python3-r-ubuntu
+    container_name: energy-spark
+    hostname: energy-spark
+    user: root
+    init: true
+    working_dir: /opt/spark/apps
+    command: ["/bin/bash", "-c", "sleep infinity"]
+    ports:
+      - "127.0.0.1:4041:4040"
+    environment:
+      SPARK_PUBLIC_DNS: localhost
+      PYSPARK_PYTHON: python3
+    volumes:
+      - ./conf/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf:ro
+      - ./apps:/opt/spark/apps
+      - ./data:/opt/spark/data:ro
+      - ./outputs:/opt/spark/outputs
+      - ./warehouse:/opt/spark/warehouse
